@@ -17,6 +17,6 @@ void Lecture(char* path, int indice, mpz_t res)
 	int i;
 	for(i=1;i<=indice;i++)
 	{
-		gmp_fscanf(fichier,"%Zi",res);
+		gmp_fscanf(fichier,"%Zd",res);
 	}
 }

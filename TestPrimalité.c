@@ -17,24 +17,24 @@ int main(int argc, char** argv)
 	
 	
 	
-	mpz_t a,H,n,res;
-	mpz_init(a);
-	mpz_init(H);
-	mpz_init(n);
-	mpz_init(res);
+	//~ mpz_t a,H,n,res;
+	//~ mpz_init(a);
+	//~ mpz_init(H);
+	//~ mpz_init(n);
+	//~ mpz_init(res);
 	
-	mpz_set_ui(a,428);
-	mpz_set_ui(H,165);
-	mpz_set_ui(n,46);
+	//~ mpz_set_ui(a,428);
+	//~ mpz_set_ui(H,165);
+	//~ mpz_set_ui(n,46);
 	
-	Expo(a,H,n,res);
+	//~ Expo(a,H,n,res);
 	
-	gmp_printf("%Zd\n",res);
+	//~ gmp_printf("%Zd\n",res);
 	
-	mpz_clear(a);
-	mpz_clear(H);
-	mpz_clear(n);
-	mpz_clear(res);
+	//~ mpz_clear(a);
+	//~ mpz_clear(H);
+	//~ mpz_clear(n);
+	//~ mpz_clear(res);
 	
 	/*switch(argc)
 	{
@@ -61,25 +61,43 @@ int main(int argc, char** argv)
 
 bool SolovayStrassen(mpz_t n,int k)
 {
+	bool res = true;
+	
 	gmp_randstate_t state;
 	gmp_randinit_default(state);
 	
-	mpz_t a;
+	mpz_t a, exp, r, H;
 	mpz_init(a);
+	mpz_init(exp);
+	mpz_init(r);
+	mpz_init(H);
+		
 	for(;k>0;k--)
 	{
 		mpz_sub_ui(a,n,2);
 		mpz_urandomm(a,state,a);
 		mpz_add_ui(a,a,2);
 		
-		if(!Jacobi(a,n))
+		mpz_set_ui(r,Jacobi(a,n));
+		if(!mpz_cmp_ui(r,0))
+			res = false;
+		else
 		{
-			mpz_clear(a);
-			return false;
+			mpz_sub_ui(H,n,1);
+			mpz_fdiv_q_ui(H,H,2);
+			
+			Expo(a,H,n,exp);
+			
+			if(!mpz_congruent_p(exp,r,n))
+				res = false;
 		}
 	}
+	
 	mpz_clear(a);
-	return true;
+	mpz_clear(exp);
+	mpz_clear(r);
+	mpz_clear(H);
+	return res;
 }
 
 void AfficherRes(bool b, mpz_t n, int k)

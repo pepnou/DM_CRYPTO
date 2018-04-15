@@ -7,15 +7,7 @@
 
 void Expo(mpz_t a, mpz_t H, mpz_t n, mpz_t res)
 {
-	int i = 0;
-	mpz_set_ui(res,1);
-	
-	while(mpz_cmp(res,H) < 0)
-	{
-		mpz_mul_2exp(res,res,1);
-		i++;
-	}
-	i--;
+	int i = mpz_sizeinbase(H,2) -1;
 	
 	mpz_set(res,a);
 	

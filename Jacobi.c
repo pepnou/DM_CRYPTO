@@ -54,5 +54,37 @@ int Jacobi(mpz_t a, mpz_t n)
 
 bool Prime(mpz_t a, mpz_t b)
 {
+	bool prime;
+	mpz_t res;
+	mpz_init(res);
 	
+	Euclide(a,b,res);
+	
+	if(!mpz_cmp_ui(res,1))
+		prime = true;
+	else
+		prime = false;
+	
+	mpz_clear(res);
+	
+	return prime;
+}
+
+void Euclide(mpz_t a, mpz_t b, mpz_t res)
+{
+	mpz_t r;
+	mpz_init(r);
+	
+	mpz_mod(r,a,b);
+	
+	while(!mpz_cmp_ui(r,0))
+	{
+		mpz_set(a,b);
+		mpz_set(b,r);
+		mpz_mod(r,a,b);
+	}
+	
+	mpz_set(res,b);
+	
+	mpz_clear(r);
 }

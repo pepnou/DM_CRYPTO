@@ -5,10 +5,11 @@
 
 #include "TestPrimalité.h"
 
-
 int main(int argc, char** argv)
 {
-	int k;
+	Option(argc, argv);
+	
+	/*int k;
 	mpz_t n;
 	
 	mpz_init(n);
@@ -21,7 +22,7 @@ int main(int argc, char** argv)
 	int tmp2 = mpz_probab_prime_p(n,k);
 	gmp_printf("%Zd %d\n%d\n%d\n\n",n,k,tmp1,tmp2);
 	
-	mpz_clear(n);
+	mpz_clear(n);*/
 	
 	return 0;
 }

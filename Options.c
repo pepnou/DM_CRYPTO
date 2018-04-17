@@ -1,10 +1,14 @@
+#define debug printf("line : %d in function : %s\n",__LINE__,__func__);
 
-#include "Options.h"
+#include <stdlib.h>
+#include <error.h>
+#include <argp.h>
+#include <argz.h>
 
-const char *argp_program_version =
-  "TestPrimalité v1.0";
-const char *argp_program_bug_address =
-  "<thibaut.pepin@ens.uvsq.fr>";
+//~ const char *argp_program_version =
+  //~ "TestPrimalité v1.0";
+//~ const char *argp_program_bug_address =
+  //~ "<thibaut.pepin@ens.uvsq.fr>";
 
 /* Program documentation. */
 static char doc[] =
@@ -20,7 +24,7 @@ static char args_doc[] = "NUMBER\nFILE INDEX";
 /* The options we understand. */
 static struct argp_option options[] = {
   {"verbose",  'v', 0,       0, "Produce verbose output" },
-  {"base",  'b', 0,       0, "Base dans laquelle est lu le nombre" },
+  {"base",  'b', "BASE",       0, "Base dans laquelle est lu le nombre" },
   {"position",  'p', "INDEX",       0,
    "Selection de l'indice de l'entier dans le fichier" },
   {"input",   'i', "FILE",  0,
@@ -96,25 +100,3 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
 /* Our argp parser. */
 static struct argp argp = { options, parse_opt, args_doc, doc };
-
-
-
-void Option(int argc, char** argv)
-{
-	//int i, j;
-  struct arguments arguments;
-
-  /* Default values. */
-  
-
-  /* Parse our arguments; every option seen by parse_opt will be
-     reflected in arguments. */
-  argp_parse (&argp, argc, argv, 0, 0, &arguments);
-  
-  printf("xd\n");
-  
-  if(arguments.input_file)
-	printf("%s %d\n",arguments.input_file,arguments.index);
-  else
-	printf("%s\n",arguments.number);
-}

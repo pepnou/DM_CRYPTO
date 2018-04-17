@@ -2,27 +2,41 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <math.h>
 
 #include "TestPrimalité.h"
 
 int main(int argc, char** argv)
-{
-	Option(argc, argv);
-	
-	/*int k;
+{	
+	int k = 15;
 	mpz_t n;
 	
 	mpz_init(n);
 	
 	//~ mpz_set_ui(n,5);
-	Lecture("./test/nbr_premier.txt",2,n);
-	k = 50;
+	//~ Lecture("./test/nbr_premier.txt",2,n);
 	
-	int tmp1 = SolovayStrassen(n,k);
-	int tmp2 = mpz_probab_prime_p(n,k);
-	gmp_printf("%Zd %d\n%d\n%d\n\n",n,k,tmp1,tmp2);
+	//int tmp1 = SolovayStrassen(n,k);
+	//int tmp2 = mpz_probab_prime_p(n,k);
+	//gmp_printf("%Zd %d\n%d\n%d\n\n",n,k,tmp1,tmp2);
+		
+	struct arguments arguments;
+	argp_parse (&argp, argc, argv, 0, 0, &arguments);
+		
+	if(arguments.input_file)
+	{
+		//printf("%s\n",arguments.input_file);
+		Lecture(arguments.input_file, arguments.index, n);
+	}
+	else
+	{
+		//printf("%d %s\n",arguments.base,arguments.number);
+		mpz_set_str(n,arguments.number,arguments.base);
+	}
 	
-	mpz_clear(n);*/
+	AfficherRes(SolovayStrassen(n,k),n,k);
+	
+	mpz_clear(n);
 	
 	return 0;
 }
@@ -70,6 +84,8 @@ bool SolovayStrassen(mpz_t n, int k)
 
 void AfficherRes(bool b, mpz_t n, int k)
 {
+	double proba = 1 - ldexp(1,-k);
 	
+	gmp_printf("Nombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %lf\n\n",n,k,b?"oui":"non",proba);
 }
 

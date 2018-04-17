@@ -5,8 +5,8 @@ run: all
 	./TestPrimalité
 	
 
-TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o Options.o TestPrimalité.o
-	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o Options.o TestPrimalité.o -Wall -lgmp
+TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o TestPrimalité.o
+	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o TestPrimalité.o -Wall -lgmp
 	
 
 TestPrimalité.o: TestPrimalité.c TestPrimalité.h Exponentiation.c Exponentiation.h Jacobi.c Jacobi.h LectureFichier.c LectureFichier.h Options.c Options.h

@@ -19,7 +19,7 @@ options\
  to force a line-break, e.g.\n<-- here.";
 
 /* A description of the arguments we accept. */
-static char args_doc[] = "NUMBER\nFILE INDEX";
+static char args_doc[] = "NUMBER REPETITIONS\nFILE INDEX REPETITIONS";
 
 /* The options we understand. */
 static struct argp_option options[] = {

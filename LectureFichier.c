@@ -5,7 +5,7 @@
 #include "LectureFichier.h"
 
 
-void Lecture(char* path, int indice, mpz_t res)
+void Lecture(char* path, int indice, int base, mpz_t res)
 {
 	FILE* fichier = fopen(path,"r");
 	if(!fichier)
@@ -17,6 +17,12 @@ void Lecture(char* path, int indice, mpz_t res)
 	int i;
 	for(i=1;i<=indice;i++)
 	{
-		gmp_fscanf(fichier,"%Zd",res);
+		//gmp_fscanf(fichier,"%Zd",res);
+		
+		if(mpz_inp_str(res,fichier,base) == 0)
+		{
+			printf("le nombre à tester n est pas valide dans la base spécifiée\n");
+			exit(-1);
+		}
 	}
 }

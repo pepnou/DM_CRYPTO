@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <math.h>
+#include <string.h>
 
 #include "TestPrimalité.h"
 
@@ -22,16 +23,18 @@ int main(int argc, char** argv)
 		
 	struct arguments arguments;
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
-		
+	
 	if(arguments.input_file)
 	{
-		//printf("%s\n",arguments.input_file);
-		Lecture(arguments.input_file, arguments.index, n);
+		Lecture(arguments.input_file, arguments.index, arguments.base, n);
 	}
 	else
-	{
-		//printf("%d %s\n",arguments.base,arguments.number);
-		mpz_set_str(n,arguments.number,arguments.base);
+	{		
+		if(mpz_set_str(n,arguments.number,arguments.base) == -1)
+		{
+			printf("le nombre à tester n est pas valide dans la base spécifiée\n");
+			exit(-1);
+		}
 	}
 	
 	AfficherRes(SolovayStrassen(n,k),n,k);

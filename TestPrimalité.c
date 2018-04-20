@@ -135,11 +135,12 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	
 	struct winsize w;
     ioctl(0, TIOCGWINSZ, &w);
-    char* nbr = mpz_get_str(NULL,base,n), temp[100];
+    char* nbr = mpz_get_str(NULL,base,n), temp[w.ws_col];
     int i, offset = w.ws_col - 2*3, tmp;
     
     for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
+	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
 	
 	sprintf(temp,"Number in base %d :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
@@ -160,10 +161,31 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 		i+= offset;
 	}
 	
-	//~ double proba = 1 - ldexp(1,-k);
+	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	sprintf(temp,"Repetitions :",base);
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
 	
-	//~ gmp_printf("\nNombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %.20lf\n\n",n,k,b?"oui":"non",proba);
-		
+	sprintf(temp,"%d",k);
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	
+	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	sprintf(temp,"Prime ?",base);
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	
+	sprintf(temp,"%s",b?"Yes":"No");
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	
+	double proba = 1 - ldexp(1,-k);
+	
+	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	sprintf(temp,"Probability :",base);
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	
+	sprintf(temp,"%.25lf",proba);
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	
+			
+	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
 	for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
 }

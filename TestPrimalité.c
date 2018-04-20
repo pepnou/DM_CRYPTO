@@ -140,7 +140,7 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
     
     for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
-	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	printf(GRN "\n#\x1B[%dC#\n" RESET,w.ws_col-2);
 	
 	sprintf(temp,"Number in base %d :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
@@ -161,14 +161,14 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 		i+= offset;
 	}
 	
-	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Repetitions :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
 	
 	sprintf(temp,"%d",k);
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
 	
-	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Prime ?",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
 	
@@ -177,7 +177,7 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	
 	double proba = 1 - ldexp(1,-k);
 	
-	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Probability :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
 	
@@ -185,8 +185,9 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
 	
 			
-	printf(GRN "#\x1B[%dC#" RESET,w.ws_col-2);
+	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
+	printf("\n");
 }
 

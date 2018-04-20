@@ -24,11 +24,7 @@ static char args_doc[] = "NUMBER REPETITIONS\nFILE INDEX REPETITIONS";
 /* The options we understand. */
 static struct argp_option options[] = {
   {"verbose",  'v', 0,       0, "Produce verbose output" },
-  {"base",  'b', "BASE",       0, "Base dans laquelle est lu le nombre" },
-  {"position",  'p', "INDEX",       0,
-   "Selection de l'indice de l'entier dans le fichier" },
-  {"input",   'i', "FILE",  0,
-   "Input from FILE instead of standard output" },
+  {"base",  'b', "BASE",       0, "Base of the input number, default is 10" },
   { 0 }
 };
 
@@ -39,6 +35,7 @@ struct arguments
   char* input_file;            /* file from ‘--input’ */
   int index;
   int base;
+  int repetitions;
   char* number;
   size_t argz_len;
   char* argz;
@@ -63,15 +60,23 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case ARGP_KEY_ARG:
 	  {
 	    size_t count = argz_count (argument->argz, argument->argz_len);
-	    if(count == 0)
+	    
+	    switch(count)
 	    {
-			argument->input_file = arg;
-			argument->number = arg;
-		} else if(count == 1)
-	    {
-			argument->index = atoi(arg);
+			case 0:
+				argument->input_file = arg;
+				argument->number = arg;
+				break;
+			case 1:
+				argument->index = atoi(arg);
+			argument->repetitions = atoi(arg);
+				break;
+			case 2:
+				argument->repetitions = atoi(arg);
 			argument->number = NULL;
+				break;
 		}
+		
 	    argz_add (&argument->argz, &argument->argz_len, arg);
 	  }
 	  break;
@@ -86,11 +91,11 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	case ARGP_KEY_END:
 	  {
 	    size_t count = argz_count (argument->argz, argument->argz_len);
-	    if (count > 2)
+	    if (count > 3)
 	    argp_failure (state, 1, 0, "too many arguments");
-	    else if (count < 1)
+	    else if (count < 2)
 	    argp_failure (state, 1, 0, "too few arguments");
-	    else if (count == 1)
+	    else if (count == 2)
 	    argument->input_file = NULL;
       }
 	break;

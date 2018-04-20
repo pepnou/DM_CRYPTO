@@ -4,12 +4,13 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
+#include <sys/ioctl.h>
+
 
 #include "TestPrimalité.h"
 
 int main(int argc, char** argv)
 {	
-	int k = 15;
 	mpz_t n;
 	
 	mpz_init(n);
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
 		}
 	}
 	
-	AfficherRes(SolovayStrassen(n,k),n,k);
+	AfficherRes(SolovayStrassen(n,arguments.repetitions),n,arguments.repetitions, arguments.verbose);
 	
 	mpz_clear(n);
 	
@@ -85,10 +86,32 @@ bool SolovayStrassen(mpz_t n, int k)
 	return res;
 }
 
-void AfficherRes(bool b, mpz_t n, int k)
+void AfficherRes(bool b, mpz_t n, int k, bool v)
 {
+	system("clear");
+	
+	if(!v)
+	{
+		if(b)
+			printf("Prime\n");
+		else
+			printf("Not Prime\n");
+		exit(0);
+	}
+	
+	struct winsize w;
+    ioctl(0, TIOCGWINSZ, &w);
+    
+    int i;
+    for(i=0;i<w.ws_col;i++)
+		printf("#");
+	
 	double proba = 1 - ldexp(1,-k);
 	
-	gmp_printf("Nombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %lf\n\n",n,k,b?"oui":"non",proba);
+	gmp_printf("\nNombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %.20lf\n\n",n,k,b?"oui":"non",proba);
+	
+	
+	for(i=0;i<w.ws_col;i++)
+		printf("#");
 }
 

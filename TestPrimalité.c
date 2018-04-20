@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 		}
 	}
 	
-	AfficherRes(SolovayStrassen(n,arguments.repetitions),n,arguments.repetitions, arguments.verbose);
+	AfficherRes(SolovayStrassen(n,arguments.repetitions),n,arguments.repetitions, arguments.base, arguments.verbose);
 	
 	mpz_clear(n);
 	
@@ -86,10 +86,44 @@ bool SolovayStrassen(mpz_t n, int k)
 	return res;
 }
 
-void AfficherRes(bool b, mpz_t n, int k, bool v)
+#define RED   "\x1B[1;31m"
+#define GRN   "\x1B[1;32m"
+#define YEL   "\x1B[1;33m"
+#define BLU   "\x1B[1;34m"
+#define MAG   "\x1B[1;35m"
+#define CYN   "\x1B[1;36m"
+#define WHT   "\x1B[1;37m"
+
+#define RED_B   "\x1B[1;41m"
+#define GRN_B   "\x1B[1;42m"
+#define YEL_B   "\x1B[1;43m"
+#define BLU_B   "\x1B[1;44m"
+#define MAG_B   "\x1B[1;45m"
+#define CYN_B   "\x1B[1;46m"
+#define WHT_B   "\x1B[1;47m"
+
+#define RESET "\x1B[0m"
+
+void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 {
 	system("clear");
 	
+	//~ printf(RED "\x1B[78Cred\n" RESET);
+	//~ printf(GRN "green\n" RESET);
+	//~ printf(YEL "yellow\n" RESET);
+	//~ printf(BLU "blue\n" RESET);
+	//~ printf(MAG "magenta\n" RESET);
+	//~ printf(CYN "cyan\n" RESET);
+	//~ printf(WHT "white\n" RESET);
+	
+	//~ printf(RED_B "red\n" RESET);
+	//~ printf(GRN_B "green\n" RESET);
+	//~ printf(YEL_B "yellow\n" RESET);
+	//~ printf(BLU_B "blue\n" RESET);
+	//~ printf(MAG_B "magenta\n" RESET);
+	//~ printf(CYN_B "cyan\n" RESET);
+	//~ printf(WHT_B "white\n" RESET);
+		
 	if(!v)
 	{
 		if(b)
@@ -101,17 +135,36 @@ void AfficherRes(bool b, mpz_t n, int k, bool v)
 	
 	struct winsize w;
     ioctl(0, TIOCGWINSZ, &w);
+    char* nbr = mpz_get_str(NULL,base,n), temp[100];
+    int i, offset = w.ws_col - 2*3, tmp;
     
-    int i;
     for(i=0;i<w.ws_col;i++)
-		printf("#");
+		printf(GRN "#" RESET);
 	
-	double proba = 1 - ldexp(1,-k);
+	sprintf(temp,"Number in base %d :",base);
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
 	
-	gmp_printf("\nNombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %.20lf\n\n",n,k,b?"oui":"non",proba);
+	i = 0;
+	while(i < strlen(nbr))
+	{
+		tmp = nbr[i + offset];
+		nbr[i + offset] = '\0';
+		printf(GRN "#  " RESET "%s",&nbr[i]);
+		
+		if(strlen(&nbr[i]) < offset)
+			printf(GRN "\x1B[%ldC  #\n" RESET,offset - strlen(&nbr[i]));
+		else
+			printf(GRN "  #\n" RESET);
+				
+		nbr[i + offset] = tmp;
+		i+= offset;
+	}
 	
+	//~ double proba = 1 - ldexp(1,-k);
 	
+	//~ gmp_printf("\nNombre : %Zd\nRépétition : %d\nPremier ? %s\nProbabilité : %.20lf\n\n",n,k,b?"oui":"non",proba);
+		
 	for(i=0;i<w.ws_col;i++)
-		printf("#");
+		printf(GRN "#" RESET);
 }
 

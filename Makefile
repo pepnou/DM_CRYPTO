@@ -5,11 +5,11 @@ run: all
 	./TestPrimalité
 	
 
-TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o TestPrimalité.o
-	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o TestPrimalité.o -Wall -lgmp
+TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrimalité.o
+	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrimalité.o -Wall -lgmp
 	
 
-TestPrimalité.o: TestPrimalité.c TestPrimalité.h Exponentiation.c Exponentiation.h Jacobi.c Jacobi.h LectureFichier.c LectureFichier.h Options.c Options.h
+TestPrimalité.o: TestPrimalité.c TestPrimalité.h Exponentiation.c Exponentiation.h Jacobi.c Jacobi.h LectureFichier.c LectureFichier.h Options.c Options.h Affichage.c Affichage.h
 	gcc -c -o TestPrimalité.o TestPrimalité.c -Wall -lgmp
 	
 
@@ -27,6 +27,10 @@ LectureFichier.o: LectureFichier.c LectureFichier.h
 
 Options.o: Options.c Options.h
 	gcc -c -o Options.o Options.c -Wall
+	
+
+Affichage.o: Affichage.c Affichage.h
+	gcc -c -o Affichage.o Affichage.c -Wall -lgmp
 	
 
 clear:

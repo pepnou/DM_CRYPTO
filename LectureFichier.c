@@ -13,16 +13,18 @@ void Lecture(char* path, int indice, int base, mpz_t res)
 		printf("%s  n'est pas un chemin valide\n",path);
 		exit(-1);
 	}
-	
-	int i;
+		
+	int i, tmp;
 	for(i=1;i<=indice;i++)
 	{
 		//gmp_fscanf(fichier,"%Zd",res);
 		
-		if(mpz_inp_str(res,fichier,base) == 0)
-		{
-			printf("le nombre à tester n est pas valide dans la base spécifiée\n");
-			exit(-1);
-		}
+		tmp = mpz_inp_str(res,fichier,base);
+	}
+	
+	if(tmp == 0)
+	{
+		printf("\nle nombre à tester n est pas valide dans la base spécifiée\n");
+		exit(-1);
 	}
 }

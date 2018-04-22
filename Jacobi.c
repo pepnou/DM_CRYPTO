@@ -8,6 +8,8 @@
 
 int Jacobi(mpz_t a, mpz_t n)
 {
+	
+	
 	//gmp_printf("Jacobi : ( %Zd / %Zd )\n",a,n);
 	int res;
 	mpz_t b, n2;

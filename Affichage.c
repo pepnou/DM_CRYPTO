@@ -29,22 +29,6 @@
 void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 {
 	system("clear");
-	
-	//~ printf(RED "\x1B[78Cred\n" RESET);
-	//~ printf(GRN "green\n" RESET);
-	//~ printf(YEL "yellow\n" RESET);
-	//~ printf(BLU "blue\n" RESET);
-	//~ printf(MAG "magenta\n" RESET);
-	//~ printf(CYN "cyan\n" RESET);
-	//~ printf(WHT "white\n" RESET);
-	
-	//~ printf(RED_B "red\n" RESET);
-	//~ printf(GRN_B "green\n" RESET);
-	//~ printf(YEL_B "yellow\n" RESET);
-	//~ printf(BLU_B "blue\n" RESET);
-	//~ printf(MAG_B "magenta\n" RESET);
-	//~ printf(CYN_B "cyan\n" RESET);
-	//~ printf(WHT_B "white\n" RESET);
 		
 	if(!v)
 	{
@@ -58,14 +42,14 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	struct winsize w;
     ioctl(0, TIOCGWINSZ, &w);
     char* nbr = mpz_get_str(NULL,base,n), temp[w.ws_col];
-    int i, offset = w.ws_col - 2*3, tmp;
+    int i, offset = w.ws_col - 2*3, offset2 = w.ws_col - 2*2, tmp;
     
     for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
 	printf(GRN "\n#\x1B[%dC#\n" RESET,w.ws_col-2);
 	
 	sprintf(temp,"Number in base %d :",base);
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	i = 0;
 	while(i < strlen(nbr))
@@ -84,40 +68,40 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	}
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Size in base %d :",base);
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	sprintf(temp,"%ld",mpz_sizeinbase(n,base));
-	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Size in base 2 :");
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	sprintf(temp,"%ld",mpz_sizeinbase(n,2));
-	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Repetitions :");
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	sprintf(temp,"%d",k);
-	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Prime ?");
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	sprintf(temp,"%s",b?"Yes":"No");
-	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 	double proba = 1 - ldexp(1,-k);
 	
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Probability :");
-	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,w.ws_col - 2*2 - strlen(temp));
+	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
 	sprintf(temp,"%.25lf",proba);
-	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,w.ws_col - 2*3 - strlen(temp));
+	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 			
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);

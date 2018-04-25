@@ -10,21 +10,20 @@ void Lecture(char* path, int indice, int base, mpz_t res)
 	FILE* fichier = fopen(path,"r");
 	if(!fichier)
 	{
-		printf("%s  n'est pas un chemin valide\n",path);
+		printf("%s  is not a valid path\n",path);
 		exit(-1);
 	}
 		
 	int i, tmp;
 	for(i=1;i<=indice;i++)
 	{
-		//gmp_fscanf(fichier,"%Zd",res);
-		
 		tmp = mpz_inp_str(res,fichier,base);
 	}
 	
 	if(tmp == 0)
 	{
-		printf("\nle nombre à tester n est pas valide dans la base spécifiée\n");
+		printf("\nThe number is not valid in the specified base or the \
+		 file does not contain the INDEX-positionned number \n");
 		exit(-1);
 	}
 	fclose(fichier);

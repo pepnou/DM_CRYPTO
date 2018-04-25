@@ -1,29 +1,30 @@
-#define debug printf("line : %d in function : %s\n",__LINE__,__func__);
-
 #include <stdlib.h>
 #include <error.h>
 #include <argp.h>
 #include <argz.h>
 
 const char *argp_program_version =
-  "TestPrimalité v1.0";
+  "TestPrimalité v2.0";
 const char *argp_program_bug_address =
   "<thibaut.pepin@ens.uvsq.fr>, <kamilia.loualia@ens.uvsq.fr>";
 
 /* Program documentation. */
 static char doc[] =
-  "TestPrimalité -- a program that test the primality of a big number \
-\vThis part of the documentation comes *after* the options;\
- note that the text is automatically filled, but it's possible\
- to force a line-break, e.g.\n<-- here.";
+  "TestPrimalité -- a program that test the primality of a big number. \
+  \n\nThe file given must contain number seperated by white space.\
+\vIf the base is specified, it must be between 2 and 62. For bases up \
+to 36, case is ignored; upper-case and lower-case letters have the same \
+value. For bases 37 to 62, upper-case letter represent the usual 10..35 \
+while lower-case letter represent 36..61.";
 
 /* A description of the arguments we accept. */
-static char args_doc[] = "NUMBER REPETITIONS\nFILE INDEX REPETITIONS";
+static char args_doc[] = "NUMBER\nFILE INDEX";
 
 /* The options we understand. */
 static struct argp_option options[] = {
   {"verbose",  'v', 0,       0, "Produce verbose output" },
   {"base",  'b', "BASE",       0, "Base of the input number, default is 10" },
+  {"repetitions",  'r', "REP",       0, "Number of repetitions of the algorithm, default is 15" },
   { 0 }
 };
 
@@ -54,6 +55,9 @@ parse_opt (int key, char *arg, struct argp_state *state)
     case 'b':
       argument->base = atoi(arg);
       break;
+    case 'r':
+      argument->repetitions = atoi(arg);
+      break;
     case ARGP_KEY_ARG:
 	  {
 	    size_t count = argz_count (argument->argz, argument->argz_len);
@@ -66,11 +70,6 @@ parse_opt (int key, char *arg, struct argp_state *state)
 				break;
 			case 1:
 				argument->index = atoi(arg);
-			argument->repetitions = atoi(arg);
-				break;
-			case 2:
-				argument->repetitions = atoi(arg);
-			argument->number = NULL;
 				break;
 		}
 		
@@ -82,17 +81,18 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	  argument->argz_len = 0;
 	  argument->verbose = 0;
 	  argument->base = 10;
+	  argument->repetitions = 15;
 	  argument->input_file = NULL;
 	  argument->number = NULL;
 	  break;
 	case ARGP_KEY_END:
 	  {
 	    size_t count = argz_count (argument->argz, argument->argz_len);
-	    if (count > 3)
+	    if (count > 2)
 	    argp_failure (state, 1, 0, "too many arguments, run with --help");
-	    else if (count < 2)
+	    else if (count < 1)
 	    argp_failure (state, 1, 0, "too few arguments, run with --help");
-	    else if (count == 2)
+	    else if (count == 1)
 	    argument->input_file = NULL;
       }
 	break;

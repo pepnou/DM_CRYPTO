@@ -65,6 +65,7 @@ bool Prime(mpz_t a, mpz_t b)
 	mpz_set(a_c,a);
 	mpz_set(b_c,b);
 	
+	//Comme le type mpz_t est une addresse, on doit copier les valeurs, sans quoi elles seraient modifiées dans le reste du programme
 	Euclide(a_c,b_c,res); // res = pgcd(a,b)
 	
 	if(!mpz_cmp_ui(res,1)) //si le pgcd est 1
@@ -81,21 +82,19 @@ bool Prime(mpz_t a, mpz_t b)
 //res = pgcd(a,b)
 void Euclide(mpz_t a, mpz_t b, mpz_t res)
 {
-	//Comme le type mpz_t est une addresse, on doit copier les valeurs, sans quoi elles seraient modifiées dans le reste du programme
-	mpz_t r, a_c, b_c;
-	mpz_inits(r, a_c, b_c, NULL);
 	
-	mpz_set(a_c,a);
-	mpz_set(b_c,b);
-	mpz_mod(r,a_c,b_c);
+	mpz_t r;
+	mpz_init(r);
+	
+	mpz_mod(r,a,b);
 	
 	while(mpz_cmp_ui(r,0)) //Tant que le reste n est pas nul
 	{
-		mpz_set(a_c,b_c); // a = b
-		mpz_set(b_c,r); // b = r
-		mpz_mod(r,a_c,b_c); // r = a % b
+		mpz_set(a,b); // a = b
+		mpz_set(b,r); // b = r
+		mpz_mod(r,a,b); // r = a % b
 	}
 	
-	mpz_set(res,b_c);
-	mpz_clears(r, a_c,b_c, NULL);
+	mpz_set(res,b);
+	mpz_clear(r);
 }

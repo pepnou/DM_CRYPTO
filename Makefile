@@ -9,7 +9,7 @@ TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrima
 	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrimalité.o -Wall -lgmp
 	
 
-TestPrimalité.o: TestPrimalité.c TestPrimalité.h Exponentiation.c Exponentiation.h Jacobi.c Jacobi.h LectureFichier.c LectureFichier.h Options.c Options.h Affichage.c Affichage.h
+TestPrimalité.o: TestPrimalité.c TestPrimalité.h Exponentiation.c Exponentiation.h Jacobi.c Jacobi.h LectureFichier.c LectureFichier.h Options.c Affichage.c Affichage.h
 	gcc -c -o TestPrimalité.o TestPrimalité.c -Wall -lgmp
 	
 
@@ -25,7 +25,7 @@ LectureFichier.o: LectureFichier.c LectureFichier.h
 	gcc -c -o LectureFichier.o LectureFichier.c -Wall -lgmp
 	
 
-Options.o: Options.c Options.h
+Options.o: Options.c
 	gcc -c -o Options.o Options.c -Wall
 	
 

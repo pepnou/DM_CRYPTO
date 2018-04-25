@@ -5,42 +5,40 @@
 
 #include "Jacobi.h"
 
-
+//Calcul du symbol de Jacobi
+//renvoi (a/n)
 int Jacobi(mpz_t a, mpz_t n)
 {
-	
-	
-	//gmp_printf("Jacobi : ( %Zd / %Zd )\n",a,n);
 	int res;
 	mpz_t b, n2;
 		
-	if(!mpz_cmp_ui(a,2))
+	if(!mpz_cmp_ui(a,2)) // Propriété n°2
 	{
 		if(mpz_congruent_ui_p(n,1,8) || mpz_congruent_ui_p(n,7,8))
 			res = 1;
 		else
 			res = -1;
 	}
-	else if(mpz_even_p(a))
+	else if(!mpz_tstbit(a,0)) // Propriété n°3 (si le 1er bit est 1 alors a est pair)
 	{
 		mpz_inits(b,n2,NULL);
 		mpz_set_ui(b,2);
 		mpz_set(n2,n);
 		
-		mpz_tdiv_q_2exp(a,a,1);
+		mpz_divexact_ui(a,a,2);
 		res = Jacobi(a,n)*Jacobi(b,n2);
 		
 		mpz_clears(b,n2,NULL);
 	}
-	else if(!mpz_cmp_ui(a,1))
+	else if(!mpz_cmp_ui(a,1)) // Propriété n°4
 	{
 		res = 1;
 	}
-	else if(!Prime(a,n))
+	else if(!Prime(a,n)) // Propriété n°2
 	{
 		res = 0;
 	}
-	else
+	else // Propriété n°6 et Propriété n°1 (Dans notre cas, si on calcule (a/b), a est tjr plus petit que b, sauf si on applique la propriété 6)
 	{
 		if(mpz_congruent_ui_p(a,1,4) || mpz_congruent_ui_p(n,1,4))
 			res = 1;
@@ -56,6 +54,8 @@ int Jacobi(mpz_t a, mpz_t n)
 	return res;
 }
 
+//Test si 2 nombre sont premier entre eux
+//renvoi vrai si pgcd(a,b)=1, faux sinon
 bool Prime(mpz_t a, mpz_t b)
 {
 	bool prime;
@@ -65,9 +65,9 @@ bool Prime(mpz_t a, mpz_t b)
 	mpz_set(a_c,a);
 	mpz_set(b_c,b);
 	
-	Euclide(a_c,b_c,res);
+	Euclide(a_c,b_c,res); // res = pgcd(a,b)
 	
-	if(!mpz_cmp_ui(res,1))
+	if(!mpz_cmp_ui(res,1)) //si le pgcd est 1
 		prime = true;
 	else
 		prime = false;
@@ -77,8 +77,11 @@ bool Prime(mpz_t a, mpz_t b)
 	return prime;
 }
 
+//Calcul du pgcd avec l'algorithme d'Euclide
+//res = pgcd(a,b)
 void Euclide(mpz_t a, mpz_t b, mpz_t res)
 {
+	//Comme le type mpz_t est une addresse, on doit copier les valeurs, sans quoi elles seraient modifiées dans le reste du programme
 	mpz_t r, a_c, b_c;
 	mpz_inits(r, a_c, b_c, NULL);
 	
@@ -86,11 +89,11 @@ void Euclide(mpz_t a, mpz_t b, mpz_t res)
 	mpz_set(b_c,b);
 	mpz_mod(r,a_c,b_c);
 	
-	while(mpz_cmp_ui(r,0))
+	while(mpz_cmp_ui(r,0)) //Tant que le reste n est pas nul
 	{
-		mpz_set(a_c,b_c);
-		mpz_set(b_c,r);
-		mpz_mod(r,a_c,b_c);
+		mpz_set(a_c,b_c); // a = b
+		mpz_set(b_c,r); // b = r
+		mpz_mod(r,a_c,b_c); // r = a % b
 	}
 	
 	mpz_set(res,b_c);

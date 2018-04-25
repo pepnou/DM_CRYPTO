@@ -4,7 +4,7 @@
 
 #include "LectureFichier.h"
 
-
+//Ouvre le fichier indiqué par le chemin 'path', trouve le 'indice'-ieme nombre, le lis en base 'base' et le stocke dans 'res'
 void Lecture(char* path, int indice, int base, mpz_t res)
 {
 	FILE* fichier = fopen(path,"r");
@@ -27,4 +27,5 @@ void Lecture(char* path, int indice, int base, mpz_t res)
 		printf("\nle nombre à tester n est pas valide dans la base spécifiée\n");
 		exit(-1);
 	}
+	fclose(fichier);
 }

@@ -10,22 +10,10 @@
 
 #define RED   "\x1B[1;31m"
 #define GRN   "\x1B[1;32m"
-#define YEL   "\x1B[1;33m"
-#define BLU   "\x1B[1;34m"
-#define MAG   "\x1B[1;35m"
-#define CYN   "\x1B[1;36m"
-#define WHT   "\x1B[1;37m"
-
-#define RED_B   "\x1B[1;41m"
-#define GRN_B   "\x1B[1;42m"
-#define YEL_B   "\x1B[1;43m"
-#define BLU_B   "\x1B[1;44m"
-#define MAG_B   "\x1B[1;45m"
-#define CYN_B   "\x1B[1;46m"
-#define WHT_B   "\x1B[1;47m"
-
 #define RESET "\x1B[0m"
 
+//affiche le résultat du test de primalité
+//depend de l'option -v (passée en paramètre dans v)
 void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 {
 	system("clear");
@@ -40,13 +28,15 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	}
 	
 	struct winsize w;
-    ioctl(0, TIOCGWINSZ, &w);
-    char* nbr = mpz_get_str(NULL,base,n), temp[w.ws_col];
-    int i, offset = w.ws_col - 2*3, offset2 = w.ws_col - 2*2, tmp;
+    ioctl(0, TIOCGWINSZ, &w); //récupère la taille du terminal
+    char* nbr = mpz_get_str(NULL,base,n), temp[w.ws_col], tmp;
+    int i, offset = w.ws_col - 2*3, offset2 = w.ws_col - 2*2;
     
     for(i=0;i<w.ws_col;i++)
 		printf(GRN "#" RESET);
-	printf(GRN "\n#\x1B[%dC#\n" RESET,w.ws_col-2);
+	printf(GRN "\n#\x1B[%dC#\n" RESET,w.ws_col-2); //utise les séquences
+//  d'échappement ANSI afin de déplacer le curseur ou de changer la
+//  couleur d'écriture
 	
 	sprintf(temp,"Number in base %d :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
@@ -66,6 +56,8 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 		nbr[i + offset] = tmp;
 		i+= offset;
 	}
+	
+	//afiche la taille dans la base précisée par l'option -b
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Size in base %d :",base);
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
@@ -73,6 +65,8 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	sprintf(temp,"%ld",mpz_sizeinbase(n,base));
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
+	
+	//affiche la taille en base 2
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Size in base 2 :");
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
@@ -80,6 +74,8 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	sprintf(temp,"%ld",mpz_sizeinbase(n,2));
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
+	
+	//affiche le nombre de répétitions
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Repetitions :");
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
@@ -87,6 +83,8 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	sprintf(temp,"%d",k);
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
+	
+	//affiche le résultat du test de primalité
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Prime ?");
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
@@ -96,11 +94,12 @@ void AfficherRes(bool b, mpz_t n, int k, int base, bool v)
 	
 	double proba = 1 - ldexp(1,-k);
 	
+	//affiche la probabilité que la réponse soit correcte
 	printf(GRN "#\x1B[%dC#\n" RESET,w.ws_col-2);
 	sprintf(temp,"Probability :");
 	printf(GRN "# " RED "%s" GRN "\x1B[%ldC #\n" RESET,temp,offset2 - strlen(temp));
 	
-	sprintf(temp,"%.25lf",proba);
+	sprintf(temp,"%.25lf",b?proba:1);
 	printf(GRN "#  "RESET"%s\x1B[%ldC"GRN"  #\n" RESET,temp,offset - strlen(temp));
 	
 			

@@ -5,15 +5,14 @@
 #include <argp.h>
 #include <argz.h>
 
-//~ const char *argp_program_version =
-  //~ "TestPrimalité v1.0";
-//~ const char *argp_program_bug_address =
-  //~ "<thibaut.pepin@ens.uvsq.fr>";
+const char *argp_program_version =
+  "TestPrimalité v1.0";
+const char *argp_program_bug_address =
+  "<thibaut.pepin@ens.uvsq.fr>, <kamilia.loualia@ens.uvsq.fr>";
 
 /* Program documentation. */
 static char doc[] =
-  "Argp example #4 -- a program with somewhat more complicated \
-options\
+  "TestPrimalité -- a program that test the primality of a big number \
 \vThis part of the documentation comes *after* the options;\
  note that the text is automatically filled, but it's possible\
  to force a line-break, e.g.\n<-- here.";
@@ -31,8 +30,8 @@ static struct argp_option options[] = {
 /* Used by main to communicate with parse_opt. */
 struct arguments
 {
-  int verbose;   /* ‘-v’ */
-  char* input_file;            /* file from ‘--input’ */
+  int verbose;
+  char* input_file;
   int index;
   int base;
   int repetitions;
@@ -45,8 +44,6 @@ struct arguments
 static error_t
 parse_opt (int key, char *arg, struct argp_state *state)
 {
-  /* Get the input argument from argp_parse, which we
-     know is a pointer to our arguments structure. */
   struct arguments* argument = state->input;
 
   switch (key)
@@ -92,9 +89,9 @@ parse_opt (int key, char *arg, struct argp_state *state)
 	  {
 	    size_t count = argz_count (argument->argz, argument->argz_len);
 	    if (count > 3)
-	    argp_failure (state, 1, 0, "too many arguments");
+	    argp_failure (state, 1, 0, "too many arguments, run with --help");
 	    else if (count < 2)
-	    argp_failure (state, 1, 0, "too few arguments");
+	    argp_failure (state, 1, 0, "too few arguments, run with --help");
 	    else if (count == 2)
 	    argument->input_file = NULL;
       }

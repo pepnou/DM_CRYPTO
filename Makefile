@@ -1,10 +1,6 @@
 all: clear TestPrimalité
 	
 
-run: all
-	./TestPrimalité
-	
-
 TestPrimalité: Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrimalité.o
 	gcc -o TestPrimalité Exponentiation.o Jacobi.o LectureFichier.o Affichage.o TestPrimalité.o -Wall -lgmp
 	

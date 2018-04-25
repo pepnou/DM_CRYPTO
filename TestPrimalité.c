@@ -11,6 +11,7 @@ int main(int argc, char** argv)
 	mpz_t n;
 	mpz_init(n);
 	
+	//récupération des arguments
 	struct arguments arguments;
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
 	

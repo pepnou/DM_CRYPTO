@@ -10,7 +10,7 @@
 int Jacobi(mpz_t a, mpz_t n)
 {
 	int res;
-	mpz_t b, n2;
+	mpz_t b, c, n2;
 		
 	if(!mpz_cmp_ui(a,2)) // Propriété n°2
 	{
@@ -21,14 +21,14 @@ int Jacobi(mpz_t a, mpz_t n)
 	}
 	else if(!mpz_tstbit(a,0)) // Propriété n°3 (si le 1er bit est 1 alors a est pair)
 	{
-		mpz_inits(b,n2,NULL);
+		mpz_inits(b,c,n2,NULL);
 		mpz_set_ui(b,2);
 		mpz_set(n2,n);
 		
-		mpz_divexact_ui(a,a,2);
-		res = Jacobi(a,n)*Jacobi(b,n2);
+		mpz_divexact_ui(c,a,2);
+		res = Jacobi(c,n)*Jacobi(b,n2);
 		
-		mpz_clears(b,n2,NULL);
+		mpz_clears(b,c,n2,NULL);
 	}
 	else if(!mpz_cmp_ui(a,1)) // Propriété n°4
 	{

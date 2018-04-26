@@ -78,13 +78,13 @@ bool SolovayStrassen(mpz_t n, int k)
 		mpz_add_ui(a,a,2);
 		// 2 <= a <= n-1
 		
-		mpz_set_si(r,Jacobi(a,n));
-				
+		mpz_set_si(r,Jacobi(a,n)); //r = ( a / n )
+
 		if(!mpz_cmp_ui(r,0))
 			res = false;
 		else
 		{
-			Expo(a,H,n,exp);
+			Expo(a,H,n,exp); // exp = a^H % n
 			
 			// si (a / n) n est pas congru a a^((n-1)/1)%n
 			if(!mpz_congruent_p(exp,r,n))
